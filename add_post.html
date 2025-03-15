@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Post - Blog Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dark-theme">
+    <header>
+        <nav>
+            <h1><i class="fas fa-plus-circle"></i> Add New Post</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('admin') }}"><i class="fas fa-arrow-left"></i> Back to Admin</a>
+                <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" enctype="multipart/form-data" class="post-form">
+            <div class="form-group">
+                <label for="title"><i class="fas fa-heading"></i> Title:</label>
+                <input type="text" id="title" name="title" required placeholder="Enter post title">
+            </div>
+            <div class="form-group">
+                <label for="content"><i class="fas fa-paragraph"></i> Content:</label>
+                <textarea id="content" name="content" required placeholder="Write your post content here..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image"><i class="fas fa-image"></i> Featured Image:</label>
+                <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(this)">
+                <small>Supported formats: PNG, JPG, JPEG, GIF</small>
+                <div id="imagePreviewContainer" style="display: none;" class="image-preview">
+                    <img id="imagePreview" src="#" alt="Preview">
+                </div>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-paper-plane"></i> Publish Post
+                </button>
+                <a href="{{ url_for('admin') }}" class="btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-blog"></i> My Blog</h3>
+                <p>Create and manage your blog content.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">View Blog</a></li>
+                    <li><a href="{{ url_for('admin') }}">Admin Panel</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 My Blog. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
